@@ -1,14 +1,15 @@
 const io = require('socket.io');
+const logger = require('heroku-logger')
 
 module.exports = (httpInstance, options = null) => {
     const sock = io(httpInstance);
     sock.on('connection', (client) => {
-        console.log(`client connected`);
+        logger(`client connected`);
         client.on('videoData', (data) => {
-          console.log('camera data ', data);
+          logger('camera data ', data);
         });
         client.on('disconnect', function() {
-          console.log('user disconnected');
+          logger('user disconnected');
         });
     });
 }
