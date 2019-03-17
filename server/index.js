@@ -40,7 +40,7 @@ app.get('*.js', (req, res, next) => {
 });
 
 // Start your app.
-httpInstance.listen(port, host, async err => {
+httpInstance.listen(port, async err => {
   if (err) {
     return logger.error(err.message);
   }
