@@ -1,5 +1,5 @@
 import openSocket from 'socket.io-client';
-const socket = openSocket(window.location.origin);
+const socket = openSocket();
 
 function emitVideoData(data) {
   socket.emit('videoData', data);
