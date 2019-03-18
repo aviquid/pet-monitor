@@ -7,3 +7,11 @@
     At this point you can run `yarn start` to see the example app at `http://localhost:3000`.
 
 Now you're ready to rumble!
+
+## Tech Stack
+
+1. React
+2. Peerjs
+3. Socket.io
+4. Express
+
