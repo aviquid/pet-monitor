@@ -15,3 +15,9 @@ Now you're ready to rumble!
 3. Socket.io
 4. Express
 
+## How to use
+
+1. Run the app
+2. Click on "Camera" button on the device, which you want to act as a CCTV
+3. Click on "Show me Joe" button, to view CCTV.
+4. Happy Stalking!
