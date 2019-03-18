@@ -1,7 +1,10 @@
 import openSocket from 'socket.io-client';
 const socket = openSocket();
 
-function emitVideoData(data) {
-  socket.emit('videoData', data);
+function listenToViewer(cb) {
+  socket.on('listenToViewer', cb);
 }
-export { emitVideoData };
+function emitIdToShower(id) {
+  socket.emit('emitIdToShower', id);
+}
+export { listenToViewer, emitIdToShower };
