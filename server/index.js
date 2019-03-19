@@ -14,7 +14,7 @@ const ngrok =
     : false;
 const { resolve } = require('path');
 const app = express();
-var httpInstance = http.Server(app);
+const httpInstance = http.Server(app);
 // wiring up socket.io
 socketServer(httpInstance);
 

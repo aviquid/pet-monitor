@@ -11,8 +11,8 @@
 
 import React from 'react';
 import Peer from 'peerjs';
-import messages from './messages';
 import { listenToViewer, emitIdToShower } from 'socket-client';
+import Button from 'components/Button';
 
 /* eslint-disable react/prefer-stateless-function */
 export default class HomePage extends React.PureComponent {
@@ -26,55 +26,62 @@ export default class HomePage extends React.PureComponent {
 
   state = {
     id: null,
-    mediaStream: null
-  }
+    mediaStream: null,
+  };
 
-  getPeerId = (id) => {
+  getPeerId = id => {
     this.setState({
-      id
-    })
-  }
+      id,
+    });
+  };
 
-  callViewer = (id) => {
-    var call = this.peer.call(id, this.state.mediaStream);
-  }
+  callViewer = id => {
+    this.peer.call(id, this.state.mediaStream);
+  };
 
   startCamera = () => {
-    navigator.mediaDevices.getUserMedia({video: { facingMode: "environment" } })
-    .then(this.handleSuccess);
-  }
-  
-  handleSuccess = (stream) => {
-    listenToViewer(this.callViewer); 
-    this.setState({
-      mediaStream: stream
-    }, this.setVideoRef)   
-  }
+    navigator.mediaDevices
+      .getUserMedia({ video: { facingMode: 'environment' } })
+      .then(this.handleSuccess);
+  };
+
+  handleSuccess = stream => {
+    listenToViewer(this.callViewer);
+    this.setState(
+      {
+        mediaStream: stream,
+      },
+      this.setVideoRef,
+    );
+  };
 
   showStream = () => {
-    this.peer.on('call', (call) => {
+    this.peer.on('call', call => {
       // Answer the call, providing our mediaStream
       call.answer();
-      call.on("stream", (stream) => {
-        this.setState({
-          mediaStream: stream
-        }, this.setVideoRef) 
+      call.on('stream', stream => {
+        this.setState(
+          {
+            mediaStream: stream,
+          },
+          this.setVideoRef,
+        );
       });
     });
-    emitIdToShower(this.state.id)
-  }
+    emitIdToShower(this.state.id);
+  };
 
   setVideoRef = () => {
     this.videoRef.current.srcObject = this.state.mediaStream;
-  }
+  };
 
   render() {
     return (
       <div>
         <h1>Pet Monitor</h1>
-        <button onClick={this.startCamera}>Camera</button>
-        <button onClick={this.showStream}>Show me Joe</button>
-        <video autoPlay={true} id="dest" ref={this.videoRef}></video>
+        <Button onClick={this.startCamera}>Camera</Button>
+        <Button onClick={this.showStream}>Show me Joe</Button>
+        <video autoPlay id="dest" ref={this.videoRef} />
       </div>
     );
   }
