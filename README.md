@@ -17,7 +17,9 @@ Now you're ready to rumble!
 
 ## How to use
 
-1. Run the app
-2. Click on "Camera" button on the device, which you want to act as a CCTV
-3. Click on "Show me Joe" button, to view CCTV.
+1. Run the app.
+2. Enter an unorthodox room name (unique name).
+3. Click on "Camera" button on the device, which you want to act as a CCTV.
+4. On an another device (multiple devices supported too), enter the unorthodox room name you gave earlier.
+5. Click on "Show me Joe" button, to view CCTV.
 4. Happy Stalking!
