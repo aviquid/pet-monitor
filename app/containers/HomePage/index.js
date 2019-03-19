@@ -11,8 +11,9 @@
 
 import React from 'react';
 import Peer from 'peerjs';
-import { listenToViewer, emitIdToShower } from 'socket-client';
+import { listenToViewer, emitIdToShower, emitCctvName, unMountRoom } from 'socket-client';
 import Button from 'components/Button';
+import TextInput from 'components/TextInput';
 
 /* eslint-disable react/prefer-stateless-function */
 export default class HomePage extends React.PureComponent {
@@ -22,11 +23,13 @@ export default class HomePage extends React.PureComponent {
     this.peer = new Peer();
     this.peer.on('open', this.getPeerId);
     this.videoRef = React.createRef();
+    this.videoShower = false;
   }
 
   state = {
     id: null,
     mediaStream: null,
+    roomName: ""
   };
 
   getPeerId = id => {
@@ -46,7 +49,9 @@ export default class HomePage extends React.PureComponent {
   };
 
   handleSuccess = stream => {
+    window.addEventListener('beforeunload', this.cleanUpRoom);
     listenToViewer(this.callViewer);
+    emitCctvName(this.state.roomName);
     this.setState(
       {
         mediaStream: stream,
@@ -68,17 +73,32 @@ export default class HomePage extends React.PureComponent {
         );
       });
     });
-    emitIdToShower(this.state.id);
+    emitIdToShower({
+      id: this.state.id,
+      roomName: this.state.roomName
+    });
   };
 
   setVideoRef = () => {
     this.videoRef.current.srcObject = this.state.mediaStream;
   };
 
+  handleTextChange = (evt) => {
+    this.setState({
+      roomName: evt.target.value
+    })
+  }
+
+  cleanUpRoom = () => {
+    unMountRoom(this.state.roomName);
+    window.removeEventListener('beforeunload', this.cleanUpRoom);
+  }
+
   render() {
     return (
       <div>
         <h1>Pet Monitor</h1>
+        <TextInput type="text" value={this.state.roomName} onChange={this.handleTextChange} />
         <Button onClick={this.startCamera}>Camera</Button>
         <Button onClick={this.showStream}>Show me Joe</Button>
         <video autoPlay id="dest" ref={this.videoRef} />

@@ -7,4 +7,10 @@ function listenToViewer(cb) {
 function emitIdToShower(id) {
   socket.emit('emitIdToShower', id);
 }
-export { listenToViewer, emitIdToShower };
+function emitCctvName(roomName) {
+  socket.emit('emitCctvName', roomName)
+}
+function unMountRoom(roomName) {
+  socket.emit('unMountRoom', roomName);
+}
+export { listenToViewer, emitIdToShower, emitCctvName, unMountRoom };
