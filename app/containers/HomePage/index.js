@@ -98,7 +98,8 @@ export default class HomePage extends React.PureComponent {
     return (
       <div>
         <h1>Pet Monitor</h1>
-        <TextInput type="text" value={this.state.roomName} onChange={this.handleTextChange} />
+        <TextInput type="text" value={this.state.roomName} onChange={this.handleTextChange} 
+        placeholder="Enter a unorthodox room name" />
         <Button onClick={this.startCamera}>Camera</Button>
         <Button onClick={this.showStream}>Show me Joe</Button>
         <video autoPlay id="dest" ref={this.videoRef} />
