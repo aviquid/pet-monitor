@@ -21,10 +21,12 @@ export default class HomePage extends React.PureComponent {
 
     this.peer = new Peer();
     this.peer.on('open', this.getPeerId);
+    this.videoRef = React.createRef();
   }
 
   state = {
-    id: null
+    id: null,
+    mediaStream: null
   }
 
   getPeerId = (id) => {
@@ -34,7 +36,7 @@ export default class HomePage extends React.PureComponent {
   }
 
   callViewer = (id) => {
-    var call = this.peer.call(id, this.mediaStream);
+    var call = this.peer.call(id, this.state.mediaStream);
   }
 
   startCamera = () => {
@@ -43,32 +45,37 @@ export default class HomePage extends React.PureComponent {
   }
   
   handleSuccess = (stream) => {
-    this.mediaStream = stream;
     listenToViewer(this.callViewer); 
-    let audio = document.getElementById("source");
-    audio.srcObject = stream;   
+    this.setState({
+      mediaStream: stream
+    }, this.setVideoRef)   
   }
 
   showStream = () => {
-    this.peer.on('call', function(call) {
+    this.peer.on('call', (call) => {
       // Answer the call, providing our mediaStream
       call.answer();
       call.on("stream", (stream) => {
-        let audio = document.getElementById("dest");
-        audio.srcObject = stream;
+        this.setState({
+          mediaStream: stream
+        }, this.setVideoRef) 
       });
     });
     emitIdToShower(this.state.id)
   }
 
+  setVideoRef = () => {
+    this.videoRef.current.srcObject = this.state.mediaStream;
+  }
+
   render() {
     return (
-      <h1>
-        <video autoPlay={true} id="source" ></video>
+      <div>
+        <h1>Pet Monitor</h1>
         <button onClick={this.startCamera}>Camera</button>
         <button onClick={this.showStream}>Show me Joe</button>
-        <video autoPlay={true} id="dest"></video>
-      </h1>
+        <video autoPlay={true} id="dest" ref={this.videoRef}></video>
+      </div>
     );
   }
 }
