@@ -44,7 +44,7 @@ export default class HomePage extends React.PureComponent {
 
   startCamera = () => {
     navigator.mediaDevices
-      .getUserMedia({ video: { facingMode: 'environment' } })
+      .getUserMedia({ audio: true, video: { facingMode: 'environment' } })
       .then(this.handleSuccess);
   };
 
