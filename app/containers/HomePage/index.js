@@ -12,8 +12,13 @@
 import React from 'react';
 import Peer from 'peerjs';
 import { listenToViewer, emitIdToShower, emitCctvName, unMountRoom } from 'socket-client';
+import styled from 'styled-components';
 import Button from 'components/Button';
 import TextInput from 'components/TextInput';
+
+const Video = styled.video`
+  display: block;
+`;
 
 /* eslint-disable react/prefer-stateless-function */
 export default class HomePage extends React.PureComponent {
@@ -102,7 +107,7 @@ export default class HomePage extends React.PureComponent {
         placeholder="Enter a unorthodox room name" />
         <Button onClick={this.startCamera}>Camera</Button>
         <Button onClick={this.showStream}>Show me Joe</Button>
-        <video autoPlay id="dest" ref={this.videoRef} />
+        <Video autoPlay ref={this.videoRef} />
       </div>
     );
   }
